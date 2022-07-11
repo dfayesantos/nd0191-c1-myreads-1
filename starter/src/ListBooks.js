@@ -37,7 +37,7 @@ const ListBooks = ({ books, filter, updateBookShelf }) => {
             }}
           ></div>
           <div className="book-shelf-changer">
-            <select onChange={e => changeBookShelf(book, e)}>
+            <select defaultValue={book.shelf ? book.shelf : "none"} onChange={e => changeBookShelf(book, e)}>
               <option value="none" disabled>
                 Move to...
               </option>
