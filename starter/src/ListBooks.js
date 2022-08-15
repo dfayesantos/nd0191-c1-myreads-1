@@ -42,7 +42,7 @@ const ListBooks = ({ books, filter, updateBookShelf }) => {
           </div>
         </div>
         <div className="book-title">{book?.title ? book.title : "*No title"}</div>
-        {book.authors ? (book?.authors?.map((author) => <div className="book-authors">{author}</div>)) : "No author"}
+        {book.authors ? (book?.authors?.map((author, index) => <div key={index} className="book-authors">{author}</div>)) : "No author"}
       </div>
     </li>
     ))}
