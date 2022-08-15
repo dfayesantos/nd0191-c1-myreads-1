@@ -18,9 +18,10 @@ function App() {
   }, []);
 
   const updateBookShelf = async (book, shelf) => {
-    await BooksAPI.update(book, shelf);
-    const updatedBooks = await BooksAPI.getAll();
-    setBooks(updatedBooks)
+    
+      await BooksAPI.update(book, shelf)
+      setBooks(await BooksAPI.getAll())
+ 
   };
 
   return (

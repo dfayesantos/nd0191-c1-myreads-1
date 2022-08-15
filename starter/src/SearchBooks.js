@@ -7,26 +7,35 @@ import * as BooksAPI from "./BooksAPI";
 const SearchBooks = ({ books, updateBookShelf }) => {
 
     const [query, setQuery] = useState("");
-    const [showingBooks, setShowingBooks] = useState(books);
+    const [showingBooks, setShowingBooks] = useState([]);
 
     const updateQuery = (event) => {
       const { value } = event.target;
       setQuery(value);
     };
 
-    const getBooks = async (query) => {
+    const searchBooks = async (query) => {
       if (query === '') {
         setShowingBooks([])
       } else {
-        const res = await BooksAPI.search(query, 20);
-        setShowingBooks(res);
-      }
-    };
-    
+        const res = await BooksAPI.search(query, 20)
+        
+          await res?.forEach(book => {
+          const item = books.find(b => (b.id === book.id))
+          if (item) {
+            book.shelf = item.shelf
+          } else {book.shelf = "none"}
+        }
+          )
+         
+          await setShowingBooks(res)
+    }};
 
     useEffect(() => {
-        getBooks(query);
+        searchBooks(query);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [query]);
+
 
   return (
     
@@ -48,7 +57,6 @@ const SearchBooks = ({ books, updateBookShelf }) => {
       </div>
     </div>
     <div className="search-books-results">
-      {/* {showingBooks.length > 0 && <ListBooks books={showingBooks}></ListBooks>} */}
     </div>
     {showingBooks?.length > 0 && (<ListBooks books={showingBooks} updateBookShelf={updateBookShelf}></ListBooks>)}
   </div>

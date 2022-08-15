@@ -1,19 +1,20 @@
 import PropTypes from "prop-types";
 import "./App.css";
 
+
+
 const ListBooks = ({ books, filter, updateBookShelf }) => {
-
     const changeBookShelf = (book, e) => {
-
+      
       updateBookShelf(book, e.target.value)
     }
 
-    const filteredBooks =
-    filter === ""
-      ? books
-      : books.filter((c) =>
-          c.shelf === filter);
-
+      const filteredBooks =
+      filter === undefined
+        ? books
+        : books.filter((c) =>
+            c?.shelf === filter)
+          
   return (
     <ol className="books-grid">
     {filteredBooks.map((book) => (
@@ -31,7 +32,7 @@ const ListBooks = ({ books, filter, updateBookShelf }) => {
           ></div>
           <div className="book-shelf-changer">
             <select defaultValue={book?.shelf ? book?.shelf : "none"} onChange={e => changeBookShelf(book, e)}>
-              <option value="none" disabled>
+              <option value="moveTo" disabled>
                 Move to...
               </option>
               <option value="currentlyReading">Currently Reading</option>
@@ -42,7 +43,7 @@ const ListBooks = ({ books, filter, updateBookShelf }) => {
           </div>
         </div>
         <div className="book-title">{book?.title ? book.title : "*No title"}</div>
-        {book.authors ? (book?.authors?.map((author, index) => <div key={index} className="book-authors">{author}</div>)) : "No author"}
+        {book?.authors ? (book?.authors?.map((author, index) => <div key={index} className="book-authors">{author}</div>)) : "No author"}
       </div>
     </li>
     ))}
