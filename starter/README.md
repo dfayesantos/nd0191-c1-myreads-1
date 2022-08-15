@@ -3,7 +3,7 @@
 This is the MyReads project where you can categorize books you want to read, are currently reading, and have read! You can also search books within the database.
 
 ## How to Load the App
-This project is a React app. Once this repo is cloned to your local, you can run the app. To do so, navigate to the main nd0191-c1-myreads directory and run
+This project is a React app. Once this repo is cloned to your local, you can run the app. To do so, navigate to the main nd0191-c1-myreads/starter directory and run
 
 ```
 npm install
