@@ -15,8 +15,12 @@ const SearchBooks = ({ books, updateBookShelf }) => {
     };
 
     const getBooks = async (query) => {
-      const res = await BooksAPI.search(query, 20);
-      setShowingBooks(res);
+      if (query === '') {
+        setShowingBooks([])
+      } else {
+        const res = await BooksAPI.search(query, 20);
+        setShowingBooks(res);
+      }
     };
     
 
