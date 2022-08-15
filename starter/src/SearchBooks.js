@@ -2,25 +2,27 @@ import React, { useEffect, useState } from "react"
 import "./App.css";
 import PropTypes from "prop-types";
 import ListBooks from "./ListBooks";
+import * as BooksAPI from "./BooksAPI";
 
-const SearchBooks = ({ books }) => {
+const SearchBooks = ({ books, updateBookShelf }) => {
 
     const [query, setQuery] = useState("");
+    const [showingBooks, setShowingBooks] = useState(books);
 
     const updateQuery = (event) => {
       const { value } = event.target;
       setQuery(value);
-      console.log(showingBooks.length)
     };
-  
-    const showingBooks=
-    query === ""
-      ? books
-      : books.filter((c) =>
-          c.title.toLowerCase().includes(query.toLowerCase())
-        );
 
-      console.log('SHOWING BOOKS: ' + JSON.stringify(showingBooks))
+    const getBooks = async (query) => {
+      const res = await BooksAPI.search(query, 20);
+      setShowingBooks(res);
+    };
+    
+
+    useEffect(() => {
+        getBooks(query);
+    }, [query]);
 
   return (
     
@@ -35,22 +37,23 @@ const SearchBooks = ({ books }) => {
       <div className="search-books-input-wrapper">
         <input
           type="text"
-          placeholder="Search by title, author, or ISBN"
+          placeholder="Search by title or author"
           value={query}
-          onChange={updateQuery}
+          onChange={e=> updateQuery(e)}
         />
       </div>
     </div>
     <div className="search-books-results">
       {/* {showingBooks.length > 0 && <ListBooks books={showingBooks}></ListBooks>} */}
     </div>
-    {showingBooks.length > 0 && <ListBooks books={showingBooks}></ListBooks>}
+    {showingBooks?.length > 0 && (<ListBooks books={showingBooks} updateBookShelf={updateBookShelf}></ListBooks>)}
   </div>
   );
 };
 
 SearchBooks.propTypes = {
-    books: PropTypes.array.isRequired
+    books: PropTypes.array.isRequired,
+    updateBookShelf: PropTypes.func,
   };
 
 export default SearchBooks;

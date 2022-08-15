@@ -1,9 +1,8 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
-import ShelvedBooks from "./ShelvedBooks"
 import * as BooksAPI from "./BooksAPI";
 import SearchBooks from "./SearchBooks";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { Link } from "react-router-dom";
 import ListBooks from "./ListBooks";
 
@@ -14,7 +13,6 @@ function App() {
     const getBooks = async () => {
       const res = await BooksAPI.getAll();
       setBooks(res);
-      console.log(res)
     };
     getBooks();
   }, []);
@@ -22,7 +20,7 @@ function App() {
   const updateBookShelf = async (book, shelf) => {
     await BooksAPI.update(book, shelf);
     const updatedBooks = await BooksAPI.getAll();
-    setBooks(updatedBooks);
+    setBooks(updatedBooks)
   };
 
   return (
@@ -37,7 +35,7 @@ function App() {
       <h1>MyReads</h1>
     </div>
     <Link to="/search">
-          Add Contact
+          Search Books
         </Link>
     <div className="list-books-content">
       <div>
@@ -68,12 +66,10 @@ function App() {
         path="/search"
         element={
           <div className="list-books-content">
-      <div>
           <div className="bookshelf">
           <div className="bookshelf-books">
-            <SearchBooks books={books}></SearchBooks>
+            <SearchBooks books={books} updateBookShelf={updateBookShelf}></SearchBooks>
           </div>
-        </div>
         </div>
         </div>
         }
